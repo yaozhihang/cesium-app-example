@@ -1,0 +1,32 @@
+import {
+    Cartesian3,
+    Math as CesiumMath,
+    Terrain,
+    Viewer,
+    createOsmBuildingsAsync, Ion,
+} from "cesium";
+import "cesium/Build/Cesium/Widgets/widgets.css";
+import "./style.css";
+
+// Cesium Ion token is read from the environment (see .env.local).
+// Set VITE_CESIUM_ION_TOKEN there; never commit a real token to git.
+Ion.defaultAccessToken = import.meta.env.VITE_CESIUM_ION_TOKEN;
+
+// Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+const viewer = new Viewer("cesiumContainer", {
+    terrain: Terrain.fromWorldTerrain(),
+});
+
+// Fly the camera to San Francisco at the given longitude, latitude, and height.
+viewer.camera.flyTo({
+    destination: Cartesian3.fromDegrees(-122.4175, 37.655, 400),
+    orientation: {
+        heading: CesiumMath.toRadians(0.0),
+        pitch: CesiumMath.toRadians(-15.0),
+    },
+});
+
+// Add Cesium OSM Buildings, a global 3D buildings layer.
+createOsmBuildingsAsync().then((buildingTileset) => {
+    viewer.scene.primitives.add(buildingTileset);
+});
