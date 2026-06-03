@@ -3,7 +3,7 @@ import {
     Math as CesiumMath,
     Terrain,
     Viewer,
-    createOsmBuildingsAsync, Ion,
+    createOsmBuildingsAsync, Ion, Cesium3DTileset,
 } from "cesium";
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import "./style.css";
@@ -18,15 +18,21 @@ const viewer = new Viewer("cesiumContainer", {
 });
 
 // Fly the camera to San Francisco at the given longitude, latitude, and height.
-viewer.camera.flyTo({
+/*viewer.camera.flyTo({
     destination: Cartesian3.fromDegrees(-122.4175, 37.655, 400),
     orientation: {
         heading: CesiumMath.toRadians(0.0),
         pitch: CesiumMath.toRadians(-15.0),
     },
-});
+});*/
 
 // Add Cesium OSM Buildings, a global 3D buildings layer.
-createOsmBuildingsAsync().then((buildingTileset) => {
+/*createOsmBuildingsAsync().then((buildingTileset) => {
     viewer.scene.primitives.add(buildingTileset);
-});
+});*/
+
+const buildingTileset = viewer.scene.primitives.add(
+    await Cesium3DTileset.fromIonAssetId(4820707),
+);
+viewer.scene.primitives.add(buildingTileset);
+viewer.flyTo(buildingTileset);
