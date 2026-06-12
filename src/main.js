@@ -5,7 +5,7 @@ import {
     Viewer,
     createOsmBuildingsAsync, Ion,
 } from "cesium";
-import "cesium/Build/Cesium/Widgets/widgets.css";
+// widgets.css is injected automatically by vite-plugin-cesium.
 import "./style.css";
 
 // Cesium Ion token is read from the environment (see .env.local).
